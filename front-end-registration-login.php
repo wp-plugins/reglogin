@@ -58,6 +58,26 @@ function reglogin_login_form() {
 add_shortcode('login_form', 'reglogin_login_form');
 
 
+//Password reset form
+function reglogin_pswd_reminder_form(){
+
+		if(!is_user_logged_in()) {
+		 
+				global $reglogin_load_css;
+		 
+				// set this to true so the CSS is loaded
+				$reglogin_load_css = true;
+		 
+				$output = reglogin_pswd_reminder_form_fields();
+			} else {
+				// could show some logged in user info here
+				// $output = 'user info here';
+			}
+			return $output;
+
+}
+
+
 
 
 // registration form fields
@@ -134,8 +154,50 @@ function reglogin_login_form_fields() {
 				</p>
 			</fieldset>
 		</form>
-	<?php
+   <?php
 	return ob_get_clean();
+}
+
+
+
+
+
+
+// password reminder form fields
+function reglogin_pswd_reminder_form_fields() {
+ 
+	ob_start(); ?>	
+		<h3 class="reglogin_header"><?php _e('Register New Account'); ?></h3>
+ 
+		<?php 
+		// show any error messages after form submission
+		reglogin_show_error_messages(); ?>
+ 
+		<form id="reglogin_registration_form" class="reglogin_form" action="" method="POST">
+			<fieldset>
+				
+				<p>
+					<label for="reglogin_user_email"><?php _e('Email'); ?></label>
+					<input name="reglogin_user_email" id="reglogin_user_email" class="required" type="email"/>
+				</p>
+				
+				<p>
+					<label for="password"><?php _e('Password'); ?></label>
+					<input name="reglogin_user_pass" id="password" class="required" type="password"/>
+				</p>
+				<p>
+					<label for="password_again"><?php _e('Password Again'); ?></label>
+					<input name="reglogin_user_pass_confirm" id="password_again" class="required" type="password"/>
+				</p>
+				<p>
+					<input type="hidden" name="reglogin_register_nonce" value="<?php echo wp_create_nonce('reglogin-register-nonce'); ?>"/>
+					<input type="submit" value="<?php _e('Register Your Account'); ?>"/>
+				</p>
+			</fieldset>
+		</form>
+        
+	<?php
+	 return ob_get_clean();
 }
 
 
@@ -152,6 +214,7 @@ function reglogin_login_member() {
 		if(!$user) {
 			// if the user name doesn't exist
 			reglogin_errors()->add('empty_username', __('Invalid username'));
+			echo "Invalid username";
 		}
  
 		if(!isset($_POST['reglogin_user_pass']) || $_POST['reglogin_user_pass'] == '') {
@@ -200,6 +263,7 @@ function reglogin_add_new_member() {
 		if(username_exists($user_login)) {
 			// Username already registered
 			reglogin_errors()->add('username_unavailable', __('Username already taken'));
+			
 		}
 		if(!validate_username($user_login)) {
 			// invalid username
@@ -265,7 +329,8 @@ add_action('init', 'reglogin_add_new_member');
 
 // displays error messages from form submissions
 function reglogin_show_error_messages() {
-	if($codes = reglogin_errors()->get_error_codes()) {
+	/*if($codes = reglogin_errors()->get_error_codes()) { */
+	if($codes -> get_error_codes()) {
 		echo '<div class="reglogin_errors">';
 		    // Loop error codes and display errors
 		   foreach($codes as $code){
@@ -276,6 +341,13 @@ function reglogin_show_error_messages() {
 	}	
 }
 
+
+
+
+     function reglogin_errors()
+      {
+        $this->message = $message;
+      }
 
 
 
