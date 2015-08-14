@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+
+.reglogin_form label { display: block; float: left; width: 130px; }
+.reglogin_form input[type="text"], .reglogin_form input[type="password"],
+.reglogin_form input[type="email"] {
+	padding: 4px 8px;
+	background: #f0f0f0;
+	border: 1px solid #ccc;
+}
+.reglogin_form input[type="text"]:focus, .reglogin_form input[type="password"]:focus,
+.reglogin_form input[type="email"]:focus {
+	border-color: #aaa;
+}
+ 
+.reglogin_errors { padding: 8px; border: 1px solid #f50; margin: 0 0 15px; }
+
