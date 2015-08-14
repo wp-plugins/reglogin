@@ -3,7 +3,7 @@
 Plugin Name: RegLogin
 Plugin URI: https://frankhost.net/reglogin
 Description: Provides Front end registration and login forms
-Version: 1.0
+Version: 1.1.0
 Author: Francis Mukobi
 Author URI: https://frankhost.net
 */
